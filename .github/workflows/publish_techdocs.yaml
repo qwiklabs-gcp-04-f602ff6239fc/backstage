@@ -1,0 +1,29 @@
+name: Publish TechDocs
+
+on:
+  push:
+    branches: [main]
+    paths:
+     - "docs/**"
+     - "mkdocs.yml"
+     - ".github/workflows/publish_techdocs.yaml"
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'If you are sure, type "yes"'
+        required: true
+        default: 'no'
+
+jobs:
+  publish_techdocs:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.confirm == 'yes'
+    uses: ohmyplatform/actions/.github/workflows/publish_techdocs.yml@v1
+    permissions:
+      id-token: write
+      contents: read
+    with:
+      techdocs_bucket_name: "${{__GITHUB_ORG__}}-backstage-techdocs"
+    secrets:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}

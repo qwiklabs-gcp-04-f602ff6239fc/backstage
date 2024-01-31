@@ -1,0 +1,33 @@
+name: Build and Push Image
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'If you are sure, type "yes"'
+        required: true
+        default: 'no'
+
+jobs:
+  build:
+    permissions:
+      contents: read
+      packages: write
+    uses: ohmyplatform/actions/.github/workflows/build_and_push.yml@v1
+
+  updateArgoCDApp:
+    needs: build
+    uses: ohmyplatform/actions/.github/workflows/update_argocd_apps.yml@v1
+    permissions:
+      contents: read
+      id-token: write
+      checks: write
+      statuses: write
+    with:
+      yaml_key: '.backstage.backstage.image.tag'
+      yaml_file: 'values.yaml'
+      value: ${{ github.sha }}
+    secrets:
+      ARGOCD_APPS_DEPLOY_KEY: ${{ secrets.ARGOCD_APPS_DEPLOY_KEY }}
