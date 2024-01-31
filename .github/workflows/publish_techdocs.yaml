@@ -22,7 +22,7 @@ jobs:
       id-token: write
       contents: read
     with:
-      techdocs_bucket_name: "${{__GITHUB_ORG__}}-backstage-techdocs"
+      techdocs_bucket_name: "qwiklabs-gcp-04-f602ff6239fc-backstage-techdocs"
     secrets:
       GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}

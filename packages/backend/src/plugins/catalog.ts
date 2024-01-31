@@ -14,7 +14,7 @@ export default async function createPlugin(
   builder.addEntityProvider(
     GithubOrgEntityProvider.fromConfig(env.config, {
       id: 'production',
-      orgUrl: "https://github.com/${{__GITHUB_ORG__}}",
+      orgUrl: "https://github.com/qwiklabs-gcp-04-f602ff6239fc",
       logger: env.logger,
       schedule: env.scheduler.createScheduledTaskRunner({
         frequency: { minutes: 3 },
